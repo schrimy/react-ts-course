@@ -3,15 +3,18 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
-  entry: './app/index.js',
+  entry: './app/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index_bundle.js',
     publicPath: '/'
   },
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", ".json"],
+  },
   module: {
     rules: [
-      { test: /\.(js)$/, use: 'babel-loader' },
+      { test: /\.(js|ts|tsx)$/, use: 'babel-loader' },
       { test: /\.css$/, use: [ 'style-loader', 'css-loader' ]}
     ]
   },

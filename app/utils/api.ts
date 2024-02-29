@@ -10,7 +10,7 @@ function getErrorMsg (message, username) {
   return message
 }
 
-function getProfile (username) {
+function getProfile (username: string) {
   return fetch(`https://api.github.com/users/${username}${params}`)
     .then((res) => res.json())
     .then((profile) => {
@@ -22,7 +22,7 @@ function getProfile (username) {
     })
 }
 
-function getRepos (username) {
+function getRepos (username: string) {
   return fetch(`https://api.github.com/users/${username}/repos${params}&per_page=100`)
     .then((res) => res.json())
     .then((repos) => {
@@ -42,7 +42,7 @@ function calculateScore (followers, repos) {
   return (followers * 3) + getStarCount(repos)
 }
 
-function getUserData (player) {
+function getUserData (player: string) {
   return Promise.all([
     getProfile(player),
     getRepos(player)
@@ -52,18 +52,18 @@ function getUserData (player) {
   }))
 }
 
-function sortPlayers (players) {
+function sortPlayers (players: string[]) {
   return players.sort((a, b) => b.score - a.score)
 }
 
-export function battle (players) {
+export function battle (players: string[]) {
   return Promise.all([
     getUserData(players[0]),
     getUserData(players[1])
   ]).then((results) => sortPlayers(results))
 }
 
-export function fetchPopularRepos (language) {
+export function fetchPopularRepos (language: string) {
   const endpoint = window.encodeURI(`https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`)
 
   return fetch(endpoint)
