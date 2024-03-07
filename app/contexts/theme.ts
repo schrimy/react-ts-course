@@ -1,10 +1,6 @@
 import React from 'react'
 
-interface ThemeMode {
-    theme: "light" | "dark";
-}
-
-const ThemeContext = React.createContext<ThemeMode>({ theme: "light" });
+const ThemeContext = React.createContext("light");
 
 export default ThemeContext;
 export const ThemeConsumer = ThemeContext.Consumer;

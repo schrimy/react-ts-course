@@ -1,17 +1,12 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import PropTypes from 'prop-types'
 import useHover from '../hooks/useHover'
-
-interface ToolTipTypes {
-  container: React.CSSProperties,
-  tooltip: React.CSSProperties,
-}
 
 const styles = {
   container: {
     position: 'relative',
     display: 'flex'
-  },
+  } as CSSProperties,
   tooltip: {
     boxSizing: 'border-box',
     position: 'absolute',
@@ -26,10 +21,10 @@ const styles = {
     color: '#fff',
     textAlign: 'center',
     fontSize: '14px',
-  }
+  } as CSSProperties
 }
 
-export default function Tooltip ({ styles, text, children }: { styles: ToolTipTypes, text: string, children: React.ReactNode }) {
+export default function Tooltip ({ text, children }: { text: string, children: React.ReactNode }) {
   const [hovering, attrs] = useHover()
 
   return (
