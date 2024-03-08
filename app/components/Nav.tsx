@@ -6,7 +6,7 @@ const activeStyle = {
   color: 'rgb(187, 46, 31)'
 }
 
-export default function Nav ({ toggleTheme }) {
+export default function Nav ({ toggleTheme }: { toggleTheme: () => void }) {
   const theme = React.useContext(ThemeContext)
 
   return (

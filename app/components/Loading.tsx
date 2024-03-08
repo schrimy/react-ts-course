@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import PropTypes from 'prop-types'
 
 const styles = {
@@ -9,7 +9,7 @@ const styles = {
     right: '0',
     marginTop: '20px',
     textAlign: 'center',
-  }
+  } as CSSProperties
 }
 
 export default function Loading ({ text = 'Loading', speed = 300 }) {

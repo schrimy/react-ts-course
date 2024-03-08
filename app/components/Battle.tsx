@@ -34,7 +34,7 @@ function Instructions () {
 function PlayerInput ({ onSubmit, label }: { onSubmit: (username: string) => void, label: string }) {
   const [username, setUsername] = React.useState('')
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
     onSubmit(username)
