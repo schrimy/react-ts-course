@@ -15,7 +15,7 @@ function LangaugesNav ({ selected, onUpdateLanguage }: { selected: string, onUpd
         <li key={language}>
           <button
             className='btn-clear nav-link'
-            style={language === selected ? { color: 'rgb(187, 46, 31)' } : null}
+            style={language === selected ? { color: 'rgb(187, 46, 31)' } : undefined}
             onClick={() => onUpdateLanguage(language)}>
             {language}
           </button>
@@ -30,7 +30,19 @@ LangaugesNav.propTypes = {
   onUpdateLanguage: PropTypes.func.isRequired
 }
 
-function ReposGrid ({ repos }) {
+interface repoAttributes {
+  name: string,
+  owner: {
+    login: string,
+    avatar_url: string
+  },
+  html_url: string,
+  stargazers_count: number,
+  forks: number,
+  open_issues: number
+}
+
+function ReposGrid ({ repos }: { repos: repoAttributes[] }) {
   return (
     <ul className='grid space-around'>
       {repos.map((repo, index) => {
@@ -79,6 +91,14 @@ ReposGrid.propTypes = {
   repos: PropTypes.array.isRequired
 }
 
+// interface popularActionProps {
+//   selectedLanguage?: string,
+//   repos?: [],
+//   type: 'success' | 'error',
+//   error?: Error
+// }
+
+// TODO: look at the useReducer notes need more interfaces for each part
 function popularReducer (state, action) {
   if (action.type === 'success') {
     return {
@@ -103,7 +123,7 @@ export default function Popular () {
     { error: null }
   )
 
-  const fetchedLanguages = React.useRef([])
+  const fetchedLanguages = React.useRef<string[]>([])
 
   React.useEffect(() => {
     if (fetchedLanguages.current.includes(selectedLanguage) === false) {
