@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { fetchPopularRepos } from '../utils/api'
+import { fetchPopularRepos, repos } from '../utils/api'
 import { FaUser, FaStar, FaCodeBranch, FaExclamationTriangle } from 'react-icons/fa'
 import Card from './Card'
 import Loading from './Loading'
 import Tooltip from './Tooltip'
 
+type Languages = 'All' | 'JavaScript' | 'Ruby' | 'Java' | 'CSS' | 'Python'
 function LangaugesNav ({ selected, onUpdateLanguage }: { selected: string, onUpdateLanguage: (language: string) => void }) {
-  const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python']
+  const languages: Languages[] = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python']
 
   return (
     <ul className='flex-center'>
@@ -98,8 +99,25 @@ ReposGrid.propTypes = {
 //   error?: Error
 // }
 
-// TODO: look at the useReducer notes need more interfaces for each part
-function popularReducer (state, action) {
+interface popularState extends Partial<Record<Languages, repos[]>>{
+  error: null | string,
+}
+
+interface successAction {
+  type: 'success',
+  selectedLanguage: string,
+  repos: repos[],
+}
+
+interface errorAction {
+  type: 'error',
+  error: Error,
+}
+
+type popularActions = | successAction | errorAction;
+
+// TODO: look at the useReducer notes need more interfaces for each part 
+function popularReducer (state: popularState, action: popularActions) {
   if (action.type === 'success') {
     return {
       ...state,
