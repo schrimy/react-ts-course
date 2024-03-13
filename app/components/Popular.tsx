@@ -7,7 +7,7 @@ import Loading from './Loading'
 import Tooltip from './Tooltip'
 
 type Languages = 'All' | 'JavaScript' | 'Ruby' | 'Java' | 'CSS' | 'Python'
-function LangaugesNav ({ selected, onUpdateLanguage }: { selected: string, onUpdateLanguage: (language: string) => void }) {
+function LangaugesNav ({ selected, onUpdateLanguage }: { selected: Languages, onUpdateLanguage: (language: Languages) => void }) {
   const languages: Languages[] = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python']
 
   return (
@@ -31,22 +31,10 @@ LangaugesNav.propTypes = {
   onUpdateLanguage: PropTypes.func.isRequired
 }
 
-interface repoAttributes {
-  name: string,
-  owner: {
-    login: string,
-    avatar_url: string
-  },
-  html_url: string,
-  stargazers_count: number,
-  forks: number,
-  open_issues: number
-}
-
-function ReposGrid ({ repos }: { repos: repoAttributes[] }) {
+function ReposGrid ({ repos }: { repos: repos[] }) {
   return (
     <ul className='grid space-around'>
-      {repos.map((repo, index) => {
+      {repos && repos.map((repo, index) => {
         const { name, owner, html_url, stargazers_count, forks, open_issues } = repo
         const { login, avatar_url } = owner
 
@@ -92,20 +80,13 @@ ReposGrid.propTypes = {
   repos: PropTypes.array.isRequired
 }
 
-// interface popularActionProps {
-//   selectedLanguage?: string,
-//   repos?: [],
-//   type: 'success' | 'error',
-//   error?: Error
-// }
-
 interface popularState extends Partial<Record<Languages, repos[]>>{
   error: null | string,
 }
 
 interface successAction {
   type: 'success',
-  selectedLanguage: string,
+  selectedLanguage: Languages,
   repos: repos[],
 }
 
@@ -135,7 +116,7 @@ function popularReducer (state: popularState, action: popularActions) {
 }
 
 export default function Popular () {
-  const [selectedLanguage, setSelectedLanguage] = React.useState('All')
+  const [selectedLanguage, setSelectedLanguage] = React.useState<Languages>('All')
   const [state, dispatch] = React.useReducer(
     popularReducer,
     { error: null }
@@ -154,6 +135,7 @@ export default function Popular () {
   }, [fetchedLanguages, selectedLanguage])
 
   const isLoading = () => !state[selectedLanguage] && state.error === null
+  const selectedRepos = state[selectedLanguage];
 
   return (
     <React.Fragment>
@@ -166,7 +148,7 @@ export default function Popular () {
 
       {state.error && <p className='center-text error'>{state.error}</p>}
 
-      {state[selectedLanguage] && <ReposGrid repos={state[selectedLanguage]} />}
+      {selectedRepos && <ReposGrid repos={selectedRepos} />}
     </React.Fragment>
   )
 }

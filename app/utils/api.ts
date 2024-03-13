@@ -4,6 +4,8 @@ const params = `?client_id=${id}&client_secret=${sec}`
 
 export interface user {
   followers: number;
+  login: string;
+  avatar_url: string;
 }
 
 export interface player {
@@ -12,7 +14,12 @@ export interface player {
 }
 
 export interface repos {
-  stargazers_count: number;
+  name: string,
+  owner: user,
+  html_url: string,
+  stargazers_count: number,
+  forks: number,
+  open_issues: number
 }
 
 function getErrorMsg (message: string, username: string): string {
