@@ -4,6 +4,10 @@ const params = `?client_id=${id}&client_secret=${sec}`
 
 export interface user {
   followers: number;
+  following: number;
+  location: string;
+  name: string;
+  company: string;
   login: string;
   avatar_url: string;
 }
