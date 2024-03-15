@@ -67,7 +67,7 @@ interface battleErrorAction {
 
 type battleReducerActions = battleSuccessAction | battleErrorAction;
 
-function battleReducer (state: battleState, action: battleReducerActions) {
+function battleReducer (state: battleState, action: battleReducerActions): battleState {
   if (action.type === 'success') {
     return {
       winner: action.winner,
@@ -87,7 +87,7 @@ function battleReducer (state: battleState, action: battleReducerActions) {
 }
 
 export default function Results ({ location }: { location: { search: string } }) {
-  const { playerOne, playerTwo } = queryString.parse(location.search)
+  const { playerOne, playerTwo } = queryString.parse(location.search) as { playerOne: string, playerTwo: string }
   const [state, dispatch] = React.useReducer(
     battleReducer,
     { winner: null, loser: null, error: null, loading: true }
@@ -101,7 +101,7 @@ export default function Results ({ location }: { location: { search: string } })
 
   const { winner, loser, error, loading } = state
 
-  if (loading === true) {
+  if (loading === true || !winner || !loser) {
     return <Loading text='Battling' />
   }
 
